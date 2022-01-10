@@ -2,6 +2,7 @@ const express = require("express");
 const { json } = require("body-parser");
 
 const expenseRoutes = require("./routes/expense.router");
+const userRouters = require('./routes/user.router');
 const globalErrorController = require("./controller/error.controller");
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(json());
 
 // Routes
 app.use("/api/v1/expense", expenseRoutes);
+app.use("/api/v1/user", userRouters);
 
 // Unhandled routes
 app.all("*", (req, res, next) => {
