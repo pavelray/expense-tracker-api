@@ -1,3 +1,4 @@
+const AppError = require("../models/appError");
 const User = require("../models/user");
 const { catchAsync } = require("../utils/utils");
 
@@ -41,17 +42,20 @@ exports.createNewUser = catchAsync(async (req, res, next) => {
 });
 
 exports.updateUser = catchAsync(async (req, res, next) => {
-    const id = req.params.id;
-    const { email, name, password, confirmPassword } = req.body;
-    const user = await new User(name, email, password, confirmPassword).update(id);
-  
-    res.status(200).json({
-      status: "success",
-      data: {
-        user,
-      },
-    });
+  const id = req.params.id;
+  const { name } = req.body;
+  if (req.body.password || req.body.confirmPassword) {
+    return next(new AppError("This route is not for Password update.", 400));
+  }
+  const user = await new User(name).update(id);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      user,
+    },
   });
+});
 
 exports.deleteUser = catchAsync(async (req, res, next) => {
   const id = req.params.id;
