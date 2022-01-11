@@ -1,5 +1,5 @@
+const bcrypt = require("bcryptjs");
 const UserModel = require("../schemas/user");
-
 module.exports = class User {
   constructor(name, email, password, confirmPassword) {
     this.name = name;
@@ -34,5 +34,14 @@ module.exports = class User {
   static async delete(id) {
     const user = await UserModel.findByIdAndDelete(id);
     return user;
+  }
+
+  static async login(email, password){
+    const user = UserModel.findOne({email}).select('+password');
+    return user;
+  }
+  
+  static async correctPassword(userPassword, enteredPassword){
+    return bcrypt.compare(enteredPassword,userPassword);
   }
 };

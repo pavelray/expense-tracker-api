@@ -36,6 +36,10 @@ const expenseSchema = new Schema({
     type: String,
     required: [true, "An Expense date is required"],
   },
+  userId:{
+    type: String,
+    required: [true, 'User Id is required.']
+  }
 });
 
 const Expense = mongoose.model("Expense", expenseSchema);
