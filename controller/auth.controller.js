@@ -54,7 +54,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
   createSendToken(user, 201, req, res);
 });
 
-exports.protectedRoute = async(req,res,next) => {
+exports.protectedRoute = catchAsync(async(req,res,next) => {
     let token;
 
     if(req.headers.authorization &&  req.headers.authorization.startsWith('Bearer')){
@@ -76,4 +76,4 @@ exports.protectedRoute = async(req,res,next) => {
     // Need to check password update 
     req.user = requestedUser;
     next();
-}
+});
